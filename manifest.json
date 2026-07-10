@@ -1,0 +1,57 @@
+{
+  "schema": "numan-plugin-build-manifest-v0",
+  "note": "Build matrix for the numan#30 CI build+sign pipeline. Each active plugin is cross-compiled from its upstream tag, packaged per target (.tar.gz on Unix, .zip on Windows), and published as a GitHub release asset on THIS repo. numan-registry then pins those asset URLs via scripts/add-package.py and signs the index with the trust root. This repo never holds signing keys.",
+  "default_targets": [
+    "x86_64-unknown-linux-gnu",
+    "aarch64-unknown-linux-gnu",
+    "x86_64-apple-darwin",
+    "aarch64-apple-darwin",
+    "x86_64-pc-windows-msvc"
+  ],
+  "active": [
+    {
+      "repo": "cptpiepmatz/nu-plugin-highlight",
+      "name": "nu_plugin_highlight",
+      "owner": "cptpiepmatz",
+      "plugin_bin": "nu_plugin_highlight",
+      "tag": "v1.4.15+0.113.1",
+      "version": "1.4.15",
+      "nu_version": ">=0.113.0 <0.114.0",
+      "verified_with": ["0.113.1"],
+      "description": "Syntax highlighting for Nushell values and code.",
+      "tags": ["plugin", "highlight", "syntax", "ci-built"]
+    },
+    {
+      "repo": "fdncred/nu_plugin_regex",
+      "name": "nu_plugin_regex",
+      "owner": "fdncred",
+      "plugin_bin": "nu_plugin_regex",
+      "tag": "v0.22.0",
+      "version": "0.22.0",
+      "nu_version": ">=0.113.0 <0.114.0",
+      "verified_with": ["0.113.1"],
+      "description": "Search text with regular expressions in Nushell pipelines.",
+      "tags": ["plugin", "regex", "text", "ci-built"]
+    },
+    {
+      "repo": "dead10ck/nu_plugin_dns",
+      "name": "nu_plugin_dns",
+      "owner": "dead10ck",
+      "plugin_bin": "nu_plugin_dns",
+      "tag": "v4.0.10",
+      "version": "4.0.10",
+      "nu_version": ">=0.113.0 <0.114.0",
+      "verified_with": ["0.113.1"],
+      "description": "DNS utility for Nushell.",
+      "tags": ["plugin", "dns", "network", "ci-built"]
+    }
+  ],
+  "backlog_note": "Remaining demand-ranked source-only plugins live in docs/backlog.json (generated from the awesome-nu triage). Promote entries into `active` in small batches after each passes real-Nu install on all targets.",
+  "target_runner_map": {
+    "x86_64-unknown-linux-gnu": "ubuntu-latest",
+    "aarch64-unknown-linux-gnu": "ubuntu-latest (cross)",
+    "x86_64-apple-darwin": "macos-13",
+    "aarch64-apple-darwin": "macos-14",
+    "x86_64-pc-windows-msvc": "windows-latest"
+  }
+}

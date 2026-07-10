@@ -1,0 +1,175 @@
+name: build-plugins
+
+# Cross-compile the plugins listed in manifest.json `active[]` from their upstream
+# tags, package one archive per target, publish them as GitHub release assets on
+# THIS repo, and emit a numan-registry spec per plugin. Signing does NOT happen
+# here — numan-registry pins these asset URLs via add-package.py and signs the
+# index with the official trust root.
+
+on:
+  workflow_dispatch:
+    inputs:
+      only:
+        description: "Comma-separated plugin names to build (blank = all active)"
+        required: false
+        default: ""
+  push:
+    paths:
+      - manifest.json
+      - scripts/**
+      - .github/workflows/build.yml
+
+permissions:
+  contents: write # create releases + upload assets
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      plugins: ${{ steps.select.outputs.plugins }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: select
+        shell: bash
+        run: |
+          only="${{ github.event.inputs.only }}"
+          plugins=$(python3 - "$only" <<'PY'
+          import json, sys
+          only = [s.strip() for s in (sys.argv[1] or "").split(",") if s.strip()]
+          active = json.load(open("manifest.json"))["active"]
+          if only:
+              active = [p for p in active if p["name"] in only]
+          # emit the minimal fields the build matrix needs
+          out = [{"name": p["name"], "repo": p["repo"], "tag": p["tag"],
+                  "version": p["version"], "bin": p["plugin_bin"]} for p in active]
+          print(json.dumps(out))
+          PY
+          )
+          echo "plugins=$plugins" >> "$GITHUB_OUTPUT"
+          echo "Selected: $plugins"
+
+  build:
+    needs: setup
+    strategy:
+      fail-fast: false
+      matrix:
+        plugin: ${{ fromJSON(needs.setup.outputs.plugins) }}
+        target:
+          - { triple: x86_64-unknown-linux-gnu, os: ubuntu-latest, cross: false }
+          - { triple: aarch64-unknown-linux-gnu, os: ubuntu-latest, cross: true }
+          - { triple: x86_64-apple-darwin, os: macos-13, cross: false }
+          - { triple: aarch64-apple-darwin, os: macos-14, cross: false }
+          - { triple: x86_64-pc-windows-msvc, os: windows-latest, cross: false }
+    runs-on: ${{ matrix.target.os }}
+    steps:
+      - name: Checkout numan-plugins (build scripts)
+        uses: actions/checkout@v4
+        with:
+          path: numan-plugins
+
+      - name: Checkout plugin source
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ matrix.plugin.repo }}
+          ref: ${{ matrix.plugin.tag }}
+          path: src
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target.triple }}
+
+      - name: Set up cross linker (Linux aarch64)
+        if: ${{ matrix.target.cross }}
+        uses: taiki-e/setup-cross-toolchain-action@v1
+        with:
+          target: ${{ matrix.target.triple }}
+
+      - name: Build
+        working-directory: src
+        shell: bash
+        run: cargo build --release --locked --target ${{ matrix.target.triple }}
+
+      - name: Package
+        shell: bash
+        run: |
+          bin="${{ matrix.plugin.bin }}"
+          binpath="src/target/${{ matrix.target.triple }}/release/${bin}"
+          [ -f "${binpath}.exe" ] && binpath="${binpath}.exe"
+          python3 numan-plugins/scripts/package_plugin.py \
+            --binary "$binpath" \
+            --name "${{ matrix.plugin.name }}" \
+            --version "${{ matrix.plugin.version }}" \
+            --target "${{ matrix.target.triple }}" \
+            --outdir dist | tee "package-${{ matrix.plugin.name }}-${{ matrix.target.triple }}.txt"
+
+      - name: Upload archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: asset-${{ matrix.plugin.name }}-${{ matrix.target.triple }}
+          path: dist/*
+          if-no-files-found: error
+
+      - name: Upload package record
+        uses: actions/upload-artifact@v4
+        with:
+          name: record-${{ matrix.plugin.name }}-${{ matrix.target.triple }}
+          path: package-${{ matrix.plugin.name }}-${{ matrix.target.triple }}.txt
+          if-no-files-found: error
+
+  release:
+    needs: [setup, build]
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        plugin: ${{ fromJSON(needs.setup.outputs.plugins) }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: numan-plugins
+
+      - name: Collect this plugin's assets
+        uses: actions/download-artifact@v4
+        with:
+          pattern: asset-${{ matrix.plugin.name }}-*
+          path: dl
+          merge-multiple: true
+
+      - name: Collect this plugin's package records
+        uses: actions/download-artifact@v4
+        with:
+          pattern: record-${{ matrix.plugin.name }}-*
+          path: records
+          merge-multiple: true
+
+      - name: Publish release assets
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ matrix.plugin.name }}-${{ matrix.plugin.version }}
+          name: ${{ matrix.plugin.name }} ${{ matrix.plugin.version }}
+          body: |
+            CI-built Nushell plugin binaries for `${{ matrix.plugin.name }}`,
+            cross-compiled from `${{ matrix.plugin.repo }}@${{ matrix.plugin.tag }}`.
+            Pinned + hash-verified + signed downstream in numan-registry.
+          files: dl/*
+
+      - name: Generate numan-registry spec
+        shell: bash
+        run: |
+          cat records/*.txt > packaged.tsv
+          base="${{ github.server_url }}/${{ github.repository }}/releases/download/${{ matrix.plugin.name }}-${{ matrix.plugin.version }}"
+          python3 numan-plugins/scripts/gen_spec.py \
+            --name "${{ matrix.plugin.name }}" \
+            --packaged packaged.tsv \
+            --release-base "$base" \
+            --out "spec-${{ matrix.plugin.name }}.json"
+          echo "----- spec-${{ matrix.plugin.name }}.json -----"
+          cat "spec-${{ matrix.plugin.name }}.json"
+
+      - name: Upload spec for numan-registry intake
+        uses: actions/upload-artifact@v4
+        with:
+          name: spec-${{ matrix.plugin.name }}
+          path: spec-${{ matrix.plugin.name }}.json
+          if-no-files-found: error

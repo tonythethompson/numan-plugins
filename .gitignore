@@ -1,0 +1,7 @@
+/dist/
+/dl/
+/records/
+packaged.tsv
+spec-*.json
+*.pyc
+__pycache__/

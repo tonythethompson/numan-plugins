@@ -1,0 +1,438 @@
+{
+  "schema": "numan-plugin-backlog-v0",
+  "note": "Demand-ranked source-only plugins from the awesome-nu triage (2026-07). Promote into manifest.json active[] in small batches after each passes real-Nu install on all targets. has_release=false means a buildable tag must be chosen; some plugins have system deps to check.",
+  "plugins": [
+    {
+      "repo": "FMotalleb/nu_plugin_clipboard",
+      "name": "nu_plugin_clipboard",
+      "plugin_bin": "nu_plugin_clipboard",
+      "tag": "v0.110.0",
+      "has_release": true,
+      "blocker": "SOURCE_ONLY",
+      "stars": 85
+    },
+    {
+      "repo": "idanarye/nu_plugin_skim",
+      "name": "nu_plugin_skim",
+      "plugin_bin": "nu_plugin_skim",
+      "tag": "v0.29.1",
+      "has_release": true,
+      "blocker": "SOURCE_ONLY",
+      "stars": 85
+    },
+    {
+      "repo": "cptpiepmatz/nu-plugin-highlight",
+      "name": "nu-plugin-highlight",
+      "plugin_bin": "nu_plugin_highlight",
+      "tag": "v1.4.15+0.113.1",
+      "has_release": true,
+      "blocker": "SOURCE_ONLY",
+      "stars": 82
+    },
+    {
+      "repo": "Euphrasiologist/nu_plugin_plot",
+      "name": "nu_plugin_plot",
+      "plugin_bin": "nu_plugin_plot",
+      "tag": null,
+      "has_release": false,
+      "blocker": "NO_RELEASE",
+      "stars": 71
+    },
+    {
+      "repo": "FMotalleb/nu_plugin_desktop_notifications",
+      "name": "nu_plugin_desktop_notifications",
+      "plugin_bin": "nu_plugin_desktop_notifications",
+      "tag": "v0.113.1",
+      "has_release": true,
+      "blocker": "SOURCE_ONLY",
+      "stars": 53
+    },
+    {
+      "repo": "yybit/nu_plugin_compress",
+      "name": "nu_plugin_compress",
+      "plugin_bin": "nu_plugin_compress",
+      "tag": null,
+      "has_release": false,
+      "blocker": "NO_RELEASE",
+      "stars": 42
+    },
+    {
+      "repo": "devyn/nu_plugin_dbus",
+      "name": "nu_plugin_dbus",
+      "plugin_bin": "nu_plugin_dbus",
+      "tag": "0.14.0",
+      "has_release": true,
+      "blocker": "SOURCE_ONLY",
+      "stars": 34
+    },
+    {
+      "repo": "Euphrasiologist/nu_plugin_bio",
+      "name": "nu_plugin_bio",
+      "plugin_bin": "nu_plugin_bio",
+      "tag": null,
+      "has_release": false,
+      "blocker": "NO_RELEASE",
+      "stars": 31
+    },
+    {
+      "repo": "fdncred/nu_plugin_emoji",
+      "name": "nu_plugin_emoji",
+      "plugin_bin": "nu_plugin_emoji",
+      "tag": null,
+      "has_release": false,
+      "blocker": "NO_RELEASE",
+      "stars": 27
+    },
+    {
+      "repo": "FMotalleb/nu_plugin_audio_hook",
+      "name": "nu_plugin_audio_hook",
+      "plugin_bin": "nu_plugin_audio_hook",
+      "tag": "v0.110.0",
+      "has_release": true,
+      "blocker": "SOURCE_ONLY",
+      "stars": 24
+    },
+    {
+      "repo": "fdncred/nu_plugin_json_path",
+      "name": "nu_plugin_json_path",
+      "plugin_bin": "nu_plugin_json_path",
+      "tag": null,
+      "has_release": false,
+      "blocker": "NO_RELEASE",
+      "stars": 22
+    },
+    {
+      "repo": "FMotalleb/nu_plugin_image",
+      "name": "nu_plugin_image",
+      "plugin_bin": "nu_plugin_image",
+      "tag": "v0.112.2",
+      "has_release": true,
+      "blocker": "SOURCE_ONLY",
+      "stars": 22
+    },
+    {
+      "repo": "fdncred/nu_plugin_parquet",
+      "name": "nu_plugin_parquet",
+      "plugin_bin": "nu_plugin_parquet",
+      "tag": null,
+      "has_release": false,
+      "blocker": "NO_RELEASE",
+      "stars": 18
+    },
+    {
+      "repo": "JosephTLyons/nu_plugin_units",
+      "name": "nu_plugin_units",
+      "plugin_bin": "nu_plugin_units",
+      "tag": null,
+      "has_release": false,
+      "blocker": "NO_RELEASE",
+      "stars": 18
+    },
+    {
+      "repo": "drbrain/nu_plugin_prometheus",
+      "name": "nu_plugin_prometheus",
+      "plugin_bin": "nu_plugin_prometheus",
+      "tag": "v0.11.0",
+      "has_release": true,
+      "blocker": "SOURCE_ONLY",
+      "stars": 16
+    },
+    {
+      "repo": "FMotalleb/nu_plugin_port_extension",
+      "name": "nu_plugin_port_extension",
+      "plugin_bin": "nu_plugin_port_extension",
+      "tag": "v0.113.1",
+      "has_release": true,
+      "blocker": "SOURCE_ONLY",
+      "stars": 16
+    },
+    {
+      "repo": "PhotonBursted/nu_plugin_vec",
+      "name": "nu_plugin_vec",
+      "plugin_bin": "nu_plugin_vec",
+      "tag": "v1.1.6",
+      "has_release": true,
+      "blocker": "SOURCE_ONLY",
+      "stars": 13
+    },
+    {
+      "repo": "fdncred/nu_plugin_pnet",
+      "name": "nu_plugin_pnet",
+      "plugin_bin": "nu_plugin_pnet",
+      "tag": null,
+      "has_release": false,
+      "blocker": "NO_RELEASE",
+      "stars": 9
+    },
+    {
+      "repo": "WindSoilder/nu_plugin_mongo",
+      "name": "nu_plugin_mongo",
+      "plugin_bin": "nu_plugin_mongo",
+      "tag": null,
+      "has_release": false,
+      "blocker": "NO_RELEASE",
+      "stars": 8
+    },
+    {
+      "repo": "hulthe/nu_plugin_msgpack",
+      "name": "nu_plugin_msgpack",
+      "plugin_bin": "nu_plugin_msgpack",
+      "tag": null,
+      "has_release": false,
+      "blocker": "NO_RELEASE",
+      "stars": 7
+    },
+    {
+      "repo": "kik4444/nu_plugin_mime",
+      "name": "nu_plugin_mime",
+      "plugin_bin": "nu_plugin_mime",
+      "tag": null,
+      "has_release": false,
+      "blocker": "NO_RELEASE",
+      "stars": 6
+    },
+    {
+      "repo": "lizclipse/nu_plugin_ulid",
+      "name": "nu_plugin_ulid",
+      "plugin_bin": "nu_plugin_ulid",
+      "tag": null,
+      "has_release": false,
+      "blocker": "NO_RELEASE",
+      "stars": 6
+    },
+    {
+      "repo": "oderwat/nu_plugin_logfmt",
+      "name": "nu_plugin_logfmt",
+      "plugin_bin": "nu_plugin_logfmt",
+      "tag": null,
+      "has_release": false,
+      "blocker": "NO_RELEASE",
+      "stars": 5
+    },
+    {
+      "repo": "WindSoilder/nu_plugin_bin_reader",
+      "name": "nu_plugin_bin_reader",
+      "plugin_bin": "nu_plugin_bin_reader",
+      "tag": null,
+      "has_release": false,
+      "blocker": "NO_RELEASE",
+      "stars": 5
+    },
+    {
+      "repo": "yybit/nu_plugin_x509",
+      "name": "nu_plugin_x509",
+      "plugin_bin": "nu_plugin_x509",
+      "tag": null,
+      "has_release": false,
+      "blocker": "NO_RELEASE",
+      "stars": 5
+    },
+    {
+      "repo": "Yethal/nu_plugin_hcl",
+      "name": "nu_plugin_hcl",
+      "plugin_bin": "nu_plugin_hcl",
+      "tag": "0.105.1",
+      "has_release": true,
+      "blocker": "SOURCE_ONLY",
+      "stars": 4
+    },
+    {
+      "repo": "adevore/nu_plugin_adevore",
+      "name": "nu_plugin_adevore",
+      "plugin_bin": "nu_plugin_adevore",
+      "tag": null,
+      "has_release": false,
+      "blocker": "NO_RELEASE",
+      "stars": 0
+    },
+    {
+      "repo": "ainvaltin/nu_plugin_plist",
+      "name": "nu_plugin_plist",
+      "plugin_bin": "nu_plugin_plist",
+      "tag": null,
+      "has_release": false,
+      "blocker": "NO_RELEASE",
+      "stars": 0
+    },
+    {
+      "repo": "amtoine/nu_plugin_kdl",
+      "name": "nu_plugin_kdl",
+      "plugin_bin": "nu_plugin_kdl",
+      "tag": null,
+      "has_release": false,
+      "blocker": "NO_RELEASE",
+      "stars": 0
+    },
+    {
+      "repo": "ayax79/nu_plugin_plist",
+      "name": "nu_plugin_plist",
+      "plugin_bin": "nu_plugin_plist",
+      "tag": null,
+      "has_release": false,
+      "blocker": "NO_RELEASE",
+      "stars": 0
+    },
+    {
+      "repo": "Berrysoft/nu_plugin_from_hdf5",
+      "name": "nu_plugin_from_hdf5",
+      "plugin_bin": "nu_plugin_from_hdf5",
+      "tag": null,
+      "has_release": false,
+      "blocker": "NO_RELEASE",
+      "stars": 0
+    },
+    {
+      "repo": "bluk/nu_plugin_from_bencode",
+      "name": "nu_plugin_from_bencode",
+      "plugin_bin": "nu_plugin_from_bencode",
+      "tag": "v0.11.0",
+      "has_release": true,
+      "blocker": "SOURCE_ONLY",
+      "stars": 0
+    },
+    {
+      "repo": "brendon-felix/nu_plugin_ls_colorize",
+      "name": "nu_plugin_ls_colorize",
+      "plugin_bin": "nu_plugin_ls_colorize",
+      "tag": null,
+      "has_release": false,
+      "blocker": "NO_RELEASE",
+      "stars": 0
+    },
+    {
+      "repo": "dam4rus/nu_plugin_nuts",
+      "name": "nu_plugin_nuts",
+      "plugin_bin": "nu_plugin_nuts",
+      "tag": "v0.1.2",
+      "has_release": true,
+      "blocker": "SOURCE_ONLY",
+      "stars": 0
+    },
+    {
+      "repo": "devyn/nu_plugin_cassandra_query",
+      "name": "nu_plugin_cassandra_query",
+      "plugin_bin": "nu_plugin_cassandra_query",
+      "tag": "0.3.0",
+      "has_release": true,
+      "blocker": "SOURCE_ONLY",
+      "stars": 0
+    },
+    {
+      "repo": "FMotalleb/nu_plugin_qr_maker",
+      "name": "nu_plugin_qr_maker",
+      "plugin_bin": "nu_plugin_qr_maker",
+      "tag": null,
+      "has_release": false,
+      "blocker": "NO_RELEASE",
+      "stars": 0
+    },
+    {
+      "repo": "fnuttens/nu_plugin_hmac",
+      "name": "nu_plugin_hmac",
+      "plugin_bin": "nu_plugin_hmac",
+      "tag": "0.27.0",
+      "has_release": true,
+      "blocker": "OTHER_ASSET",
+      "stars": 0
+    },
+    {
+      "repo": "galuszkak/nu_plugin_bigquery",
+      "name": "nu_plugin_bigquery",
+      "plugin_bin": "nu_plugin_bigquery",
+      "tag": "v0.2.0",
+      "has_release": true,
+      "blocker": "SOURCE_ONLY",
+      "stars": 0
+    },
+    {
+      "repo": "jcornaz/nu_plugin_from_beancount",
+      "name": "nu_plugin_from_beancount",
+      "plugin_bin": "nu_plugin_from_beancount",
+      "tag": "v2.0.0",
+      "has_release": true,
+      "blocker": "SOURCE_ONLY",
+      "stars": 0
+    },
+    {
+      "repo": "Kissaki/nu_plugin_bson",
+      "name": "nu_plugin_bson",
+      "plugin_bin": "nu_plugin_bson",
+      "tag": "v26.1140.0",
+      "has_release": true,
+      "blocker": "OTHER_ASSET",
+      "stars": 0
+    },
+    {
+      "repo": "LQR471814/nu_plugin_caldav",
+      "name": "nu_plugin_caldav",
+      "plugin_bin": "nu_plugin_caldav",
+      "tag": null,
+      "has_release": false,
+      "blocker": "NO_RELEASE",
+      "stars": 0
+    },
+    {
+      "repo": "mrxiaozhuox/nu_plugin_sled",
+      "name": "nu_plugin_sled",
+      "plugin_bin": "nu_plugin_sled",
+      "tag": null,
+      "has_release": false,
+      "blocker": "NO_RELEASE",
+      "stars": 0
+    },
+    {
+      "repo": "Neuron-Mr-White/nu_plugin_terminal_qr",
+      "name": "nu_plugin_terminal_qr",
+      "plugin_bin": "nu_plugin_terminal_qr",
+      "tag": null,
+      "has_release": false,
+      "blocker": "NO_RELEASE",
+      "stars": 0
+    },
+    {
+      "repo": "pdenapo/nu_plugin_dpkgtable",
+      "name": "nu_plugin_dpkgtable",
+      "plugin_bin": "nu_plugin_dpkgtable",
+      "tag": null,
+      "has_release": false,
+      "blocker": "NO_RELEASE",
+      "stars": 0
+    },
+    {
+      "repo": "punund/nu_plugin_ccl",
+      "name": "nu_plugin_ccl",
+      "plugin_bin": "nu_plugin_ccl",
+      "tag": null,
+      "has_release": false,
+      "blocker": "NO_RELEASE",
+      "stars": 0
+    },
+    {
+      "repo": "punund/nu_plugin_mime_message",
+      "name": "nu_plugin_mime_message",
+      "plugin_bin": "nu_plugin_mime_message",
+      "tag": null,
+      "has_release": false,
+      "blocker": "NO_RELEASE",
+      "stars": 0
+    },
+    {
+      "repo": "realcundo/nu_plugin_dcm",
+      "name": "nu_plugin_dcm",
+      "plugin_bin": "nu_plugin_dcm",
+      "tag": null,
+      "has_release": false,
+      "blocker": "NO_RELEASE",
+      "stars": 0
+    },
+    {
+      "repo": "yybit/nu_plugin_rpm",
+      "name": "nu_plugin_rpm",
+      "plugin_bin": "nu_plugin_rpm",
+      "tag": null,
+      "has_release": false,
+      "blocker": "NO_RELEASE",
+      "stars": 0
+    }
+  ]
+}
