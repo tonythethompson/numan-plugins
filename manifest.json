@@ -40,6 +40,8 @@
       "plugin_bin": "nu_plugin_dns",
       "tag": "v4.0.10",
       "version": "4.0.10",
+      "exclude_targets": ["x86_64-pc-windows-msvc"],
+      "exclude_reason": "upstream Cargo.lock has conflicting windows-sys versions; nu-protocol 0.113 GUID type mismatch (E0308) on windows targets — upstream does not build Windows",
       "nu_version": ">=0.113.0 <0.114.0",
       "verified_with": ["0.113.1"],
       "description": "DNS utility for Nushell.",

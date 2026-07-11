@@ -27,40 +27,50 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       plugins: ${{ steps.select.outputs.plugins }}
+      matrix: ${{ steps.select.outputs.matrix }}
     steps:
       - uses: actions/checkout@v4
       - id: select
         shell: bash
         run: |
           only="${{ github.event.inputs.only }}"
-          plugins=$(python3 - "$only" <<'PY'
+          python3 - "$only" <<'PY' >> "$GITHUB_OUTPUT"
           import json, sys
+          TARGETS = [
+              {"triple": "x86_64-unknown-linux-gnu", "os": "ubuntu-latest", "cross": False},
+              {"triple": "aarch64-unknown-linux-gnu", "os": "ubuntu-latest", "cross": True},
+              {"triple": "x86_64-apple-darwin", "os": "macos-13", "cross": False},
+              {"triple": "aarch64-apple-darwin", "os": "macos-14", "cross": False},
+              {"triple": "x86_64-pc-windows-msvc", "os": "windows-latest", "cross": False},
+          ]
           only = [s.strip() for s in (sys.argv[1] or "").split(",") if s.strip()]
           active = json.load(open("manifest.json"))["active"]
           if only:
               active = [p for p in active if p["name"] in only]
-          # emit the minimal fields the build matrix needs
-          out = [{"name": p["name"], "repo": p["repo"], "tag": p["tag"],
-                  "version": p["version"], "bin": p["plugin_bin"]} for p in active]
-          print(json.dumps(out))
+          plugins = [{"name": p["name"], "repo": p["repo"], "tag": p["tag"],
+                      "version": p["version"], "bin": p["plugin_bin"]} for p in active]
+          include = []
+          for p in active:
+              excluded = set(p.get("exclude_targets", []))
+              for t in TARGETS:
+                  if t["triple"] in excluded:
+                      continue
+                  include.append({
+                      "name": p["name"], "repo": p["repo"], "tag": p["tag"],
+                      "version": p["version"], "bin": p["plugin_bin"],
+                      "triple": t["triple"], "os": t["os"], "cross": t["cross"],
+                  })
+          print("plugins=" + json.dumps(plugins))
+          print("matrix=" + json.dumps({"include": include}))
           PY
-          )
-          echo "plugins=$plugins" >> "$GITHUB_OUTPUT"
-          echo "Selected: $plugins"
+          echo "Selected $(python3 -c 'import json;print(len(json.load(open("manifest.json"))["active"]))') active plugin(s)"
 
   build:
     needs: setup
     strategy:
       fail-fast: false
-      matrix:
-        plugin: ${{ fromJSON(needs.setup.outputs.plugins) }}
-        target:
-          - { triple: x86_64-unknown-linux-gnu, os: ubuntu-latest, cross: false }
-          - { triple: aarch64-unknown-linux-gnu, os: ubuntu-latest, cross: true }
-          - { triple: x86_64-apple-darwin, os: macos-13, cross: false }
-          - { triple: aarch64-apple-darwin, os: macos-14, cross: false }
-          - { triple: x86_64-pc-windows-msvc, os: windows-latest, cross: false }
-    runs-on: ${{ matrix.target.os }}
+      matrix: ${{ fromJSON(needs.setup.outputs.matrix) }}
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout numan-plugins (build scripts)
         uses: actions/checkout@v4
@@ -70,51 +80,52 @@ jobs:
       - name: Checkout plugin source
         uses: actions/checkout@v4
         with:
-          repository: ${{ matrix.plugin.repo }}
-          ref: ${{ matrix.plugin.tag }}
+          repository: ${{ matrix.repo }}
+          ref: ${{ matrix.tag }}
           path: src
+          submodules: recursive
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
         with:
-          targets: ${{ matrix.target.triple }}
+          targets: ${{ matrix.triple }}
 
       - name: Set up cross linker (Linux aarch64)
-        if: ${{ matrix.target.cross }}
+        if: ${{ matrix.cross }}
         uses: taiki-e/setup-cross-toolchain-action@v1
         with:
-          target: ${{ matrix.target.triple }}
+          target: ${{ matrix.triple }}
 
       - name: Build
         working-directory: src
         shell: bash
-        run: cargo build --release --locked --target ${{ matrix.target.triple }}
+        run: cargo build --release --locked --target ${{ matrix.triple }}
 
       - name: Package
         shell: bash
         run: |
-          bin="${{ matrix.plugin.bin }}"
-          binpath="src/target/${{ matrix.target.triple }}/release/${bin}"
+          bin="${{ matrix.bin }}"
+          binpath="src/target/${{ matrix.triple }}/release/${bin}"
           [ -f "${binpath}.exe" ] && binpath="${binpath}.exe"
           python3 numan-plugins/scripts/package_plugin.py \
             --binary "$binpath" \
-            --name "${{ matrix.plugin.name }}" \
-            --version "${{ matrix.plugin.version }}" \
-            --target "${{ matrix.target.triple }}" \
-            --outdir dist | tee "package-${{ matrix.plugin.name }}-${{ matrix.target.triple }}.txt"
+            --name "${{ matrix.name }}" \
+            --version "${{ matrix.version }}" \
+            --target "${{ matrix.triple }}" \
+            --outdir dist | tee "package-${{ matrix.name }}-${{ matrix.triple }}.txt"
 
       - name: Upload archive
         uses: actions/upload-artifact@v4
         with:
-          name: asset-${{ matrix.plugin.name }}-${{ matrix.target.triple }}
+          name: asset-${{ matrix.name }}-${{ matrix.triple }}
           path: dist/*
           if-no-files-found: error
 
       - name: Upload package record
         uses: actions/upload-artifact@v4
         with:
-          name: record-${{ matrix.plugin.name }}-${{ matrix.target.triple }}
-          path: package-${{ matrix.plugin.name }}-${{ matrix.target.triple }}.txt
+          name: record-${{ matrix.name }}-${{ matrix.triple }}
+          path: package-${{ matrix.name }}-${{ matrix.triple }}.txt
           if-no-files-found: error
 
   release:
