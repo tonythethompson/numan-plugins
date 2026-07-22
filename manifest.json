@@ -50,6 +50,20 @@
       "verified_with": ["0.113.1"],
       "description": "DNS utility for Nushell.",
       "tags": ["plugin", "dns", "network", "ci-built"]
+    },
+    {
+      "repo": "idanarye/nu_plugin_skim",
+      "name": "nu_plugin_skim",
+      "owner": "idanarye",
+      "plugin_bin": "nu_plugin_skim",
+      "tag": "v0.29.1",
+      "version": "0.29.1",
+      "exclude_targets": ["x86_64-apple-darwin"],
+      "exclude_reason": "macos-13 (Intel) runner queue was stuck >1hr on 2026-07-11; re-add once GH Actions macOS capacity recovers",
+      "nu_version": ">=0.114.0 <0.115.0",
+      "verified_with": ["0.114.1"],
+      "description": "Fuzzy finder (skim) integration for Nushell.",
+      "tags": ["plugin", "skim", "fuzzy", "ci-built"]
     }
   ],
   "backlog_note": "Remaining demand-ranked source-only plugins live in docs/backlog.json (generated from the awesome-nu triage). Promote entries into `active` in small batches after each passes real-Nu install on all targets.",
