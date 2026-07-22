@@ -1,0 +1,31 @@
+docs/backlog.json
+  s_2b89eaf48e0bf9::t_af060094ce2073 12-14
+  s_2b89eaf48e0bf9::t_7447cc6a4a3581 11
+  s_b04250085234ec::t_978cdcb6ff3f49 24-26,51,54-56,120-122
+manifest.json
+  s_2b89eaf48e0bf9::t_4b6b1f7b6cb36a 53-66
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.15",
+  "base_commit_sha": "d02cabd970365cd599ac16ca2d521d0a955b0e1f",
+  "prompts": {},
+  "sessions": {
+    "s_2b89eaf48e0bf9": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "0c938dcd-4797-4f21-84dc-089f6a387dca",
+        "model": "default"
+      },
+      "human_author": "tonythethompson <github@trackdub.com>"
+    },
+    "s_b04250085234ec": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9153c712-00cc-4b98-abe2-ffc9ffff3370",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "tonythethompson <github@trackdub.com>"
+    }
+  }
+}
