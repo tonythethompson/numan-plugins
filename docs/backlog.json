@@ -50,10 +50,10 @@
       "plugin_bin": "nu_plugin_desktop_notifications",
       "tag": "v0.114.1",
       "has_release": true,
-      "blocker": "SOURCE_ONLY",
+      "blocker": "PROMOTED",
       "nu_plugin": "0.114.1",
       "nu_protocol": "0.114.1",
-      "c1_note": "2026-07-22: updated tag from v0.113.1 to v0.114.1; passes >=0.112. Empty release assets (CI-build). 2026-07-22: promoting to active[] after skim.",
+      "c1_note": "2026-07-22: promoted to active[]; registry intake 0.114.1 published; Windows lifecycle-prove OK.",
       "stars": 53
     },
     {
