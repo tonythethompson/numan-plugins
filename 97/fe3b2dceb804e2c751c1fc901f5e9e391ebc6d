@@ -1,0 +1,21 @@
+docs/backlog.json
+  s_2b89eaf48e0bf9::t_42eb8b747a7e32 56
+manifest.json
+  s_2b89eaf48e0bf9::t_0ebe87a992bec6 67-80
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.15",
+  "base_commit_sha": "97fe3b2dceb804e2c751c1fc901f5e9e391ebc6d",
+  "prompts": {},
+  "sessions": {
+    "s_2b89eaf48e0bf9": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "0c938dcd-4797-4f21-84dc-089f6a387dca",
+        "model": "default"
+      },
+      "human_author": "tonythethompson <github@trackdub.com>"
+    }
+  }
+}
