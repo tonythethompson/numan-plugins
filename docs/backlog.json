@@ -53,7 +53,7 @@
       "blocker": "SOURCE_ONLY",
       "nu_plugin": "0.114.1",
       "nu_protocol": "0.114.1",
-      "c1_note": "2026-07-22: updated tag from v0.113.1 to v0.114.1; passes >=0.112. Empty release assets (CI-build).",
+      "c1_note": "2026-07-22: updated tag from v0.113.1 to v0.114.1; passes >=0.112. Empty release assets (CI-build). 2026-07-22: promoting to active[] after skim.",
       "stars": 53
     },
     {
